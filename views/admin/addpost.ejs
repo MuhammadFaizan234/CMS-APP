@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head') %>
+  <body class="sb-nav-fixed">
+    <%- include('partials/nav') %>
+    <div id="layoutSidenav">
+      <%- include('partials/sidbar') %>
+      <div id="layoutSidenav_content">
+        <main>
+          <div class="container-fluid px-4">
+            <h1 class="mt-4">Add Post</h1>
+            <hr />
+            <div class="row mt-5">
+              <div class="col-md-12">
+                <form method="post" action="/post" id="postForm">
+                  <div class="row mb-3">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label"
+                      >Title</label
+                    >
+                    <div class="col-sm-10">
+                      <input
+                        type="text"
+                        class="form-control rounded-0"
+                        id="inputEmail3"
+                        required
+                        name="title"
+                      />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label"
+                      >Description</label
+                    ><input type="hidden" name="body" id="content" />
+                    <div class="col-sm-10">
+                      <div id="editor" style="height: 300px"></div>
+                    </div>
+                  </div>
+                  <p class="text-end mt-5">
+                    <button type="submit" class="btn btn-primary mt-3">
+                      Add Post
+                    </button>
+                  </p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+          <div class="container-fluid px-4">
+            <div
+              class="d-flex align-items-center justify-content-between small"
+            >
+              <div class="text-muted">Copyright &copy; Your Website 2023</div>
+              <div>
+                <a href="#">Privacy Policy</a>
+                &middot;
+                <a href="#">Terms &amp; Conditions</a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <%- include('partials/footer') %>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <script>
+      const toolbarOptions = [
+        ["bold", "italic", "underline", "strike"], // toggled buttons
+        ["blockquote", "code-block"],
+        ["link", "image", "video", "formula"],
+
+        [{ header: 1 }, { header: 2 }], // custom button values
+        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+        [{ script: "sub" }, { script: "super" }], // superscript/subscript
+        [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
+        [{ direction: "rtl" }], // text direction
+
+        [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+        [{ font: [] }],
+        [{ align: [] }],
+
+        ["clean"], // remove formatting button
+      ];
+
+      const quill = new Quill("#editor", {
+        modules: {
+          toolbar: toolbarOptions,
+        },
+        theme: "snow",
+      });
+    </script>
+    <script>
+      const postForm = document.getElementById("postForm");
+      postForm.onsubmit = () => {
+        const pdata = document.getElementById("content");
+        pdata.value = quill.root.innerHTML;
+      };
+    </script>
+  </body>
+</html>
